@@ -26,31 +26,32 @@ struct node* Create()
     newnode->right = Create();
     return newnode;
 }
+void Preorder(struct node* root)
+{
+    if(root==0)
+    {return;}
+    printf("%d->", root->data);
+    Preorder(root->left);
+    Preorder(root->right);
+}
 
 
 int main() {
     struct node* root;
     root = 0;
     root = Create();
-    printf("InOrder Traversal is: \n");
+    printf("Level Order is: \n");
     if(!root) cout<<"Tree is Empty"<<endl;
     else
     {
-        struct node *temp = root;
-        while(temp!=NULL or !q.empty())
+        q.push(root);
+        while(!q.empty())
         {
-            if(temp!=NULL)
-            {
-                q.push(temp);
-                temp = temp->left;
-            }
-            else
-            {
-                temp = q.top();
-                q.pop();
-                cout<<temp->data<<" ";
-                temp = temp->right;
-            }
+            struct node* temp = q.top();
+            q.pop();
+            cout<<temp->data<<" ";
+            if(temp->right) q.push(temp->right);
+             if(temp->left) q.push(temp->left);
         }
     }
     return 0;

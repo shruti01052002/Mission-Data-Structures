@@ -8,7 +8,7 @@ struct node
     struct node* left;
     struct node* right;
 };
-stack<node*>q;
+stack<node*>s;
 
 struct node* Create()
 {
@@ -32,24 +32,33 @@ int main() {
     struct node* root;
     root = 0;
     root = Create();
-    printf("InOrder Traversal is: \n");
+    printf("PostOrder Traversal is: \n");
     if(!root) cout<<"Tree is Empty"<<endl;
     else
     {
-        struct node *temp = root;
-        while(temp!=NULL or !q.empty())
+        s.push(root);
+        struct node* curr = root;
+        struct node* prev = NULL;
+
+        while(curr!=NULL or !s.empty())
         {
-            if(temp!=NULL)
+            if(curr!=NULL)
             {
-                q.push(temp);
-                temp = temp->left;
+                s.push(curr);
+                curr = curr->left;
             }
             else
             {
-                temp = q.top();
-                q.pop();
-                cout<<temp->data<<" ";
-                temp = temp->right;
+                curr = s.top();
+                if(curr->right==NULL or curr->right==prev)
+                {
+                    cout<<curr->data<<" ";
+                    s.pop();
+                    prev = curr;
+                    curr = NULL;
+                }
+                else
+                curr = curr->right;
             }
         }
     }
